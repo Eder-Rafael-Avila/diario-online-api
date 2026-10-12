@@ -1,0 +1,64 @@
+create database diario_online;
+use diario_online;
+
+create table administradores (
+id_admin int auto_increment primary key,
+nome varchar(150) not null,
+email varchar(150) not null,
+senha varchar(255) not null
+);
+
+create table temas (
+id_tema int auto_increment primary key,
+nome varchar(55) not null,
+cor_primaria varchar(30) not null,
+cor_secundaria varchar(30) not null,
+premium boolean not null
+);
+
+create table usuarios (
+id_usuario int auto_increment primary key,
+nome_usuario varchar(150) not null,
+email varchar(150) not null,
+senha varchar(255) not null,
+data_cadastro date not null,
+ativo boolean not null
+);
+
+create table anotacoes (
+id_anotacoes int auto_increment primary key,
+id_usuario int not null,
+id_tema int not null,
+titulo varchar(100) not null,
+conteudo text not null,
+data_criacao date not null,
+data_atualizacao date not null,
+
+foreign key (id_usuario) references usuarios(id_usuario),
+foreign key (id_tema) references temas(id_tema)
+);
+
+create table lembretes (
+id_lembrete int auto_increment primary key,
+id_usuario int not null,
+titulo varchar(100) not null,
+descricao varchar(500) not null,
+toque varchar(55) not null,
+data_aviso date not null,
+concluido boolean not null,
+data_criacao date not null,
+
+foreign key (id_usuario) references usuarios(id_usuario)
+);
+
+create table assinaturas (
+id_assinatura int auto_increment primary key,
+id_usuario int not null,
+data_inicio date not null,
+data_expiracao date not null,
+valor decimal(8,2) not null,
+periodo enum('Mensal', 'Anual'),
+status enum('Ativo', 'Expirado', 'Cancelado'),
+
+foreign key(id_usuario) references usuarios(id_usuario)
+);
