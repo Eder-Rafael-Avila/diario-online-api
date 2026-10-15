@@ -33,7 +33,51 @@ export async function getAdminByEmail(email) {
     return result;
 }
 
+export async function getAdminById(id) {
+    const result = await dB.getAdminById(id);
+
+    if (isNaN(id)) {
+        throw new Error('Insira um ID válido no parâmetro.');
+    }
+
+    if (!result) {
+        throw new Error('Nenhum admin encontrado para este ID.');
+    }
+
+    return result;
+}
+
+export async function editAdmin(admin, id) {
+
+    const idExiste = await dB.getAdminById(id);
+    console.log(idExiste);
+
+    if (!idExiste) {
+        throw new Error('Nenhum admin encontrado para este ID.')
+    }
+
+    if (isNaN(id)) {
+        throw new Error('Insira um ID válido no parâmetro.');
+    }
+
+    if (!admin.nome || !admin.email || !admin.senha) {
+        throw new Error('Todos os campos devem ser preenchidos.');
+    }
+
+    const result = await dB.editAdmin(admin, id);
+    return result;
+}
+
 export async function deleteAdmin(id) {
+
+    if (isNaN(id)) {
+        throw new Error('Insira um ID válido no parâmetro.');
+    }
+
     const result = await dB.deleteAdmin(id);
     return result;
+}
+
+export async function consultarRenda() {
+    return dB.consultarRenda();
 }

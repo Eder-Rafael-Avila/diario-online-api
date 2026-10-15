@@ -39,13 +39,53 @@ export async function getAdminByEmail(email) {
     return { firstResult, emptyResult };
 }
 
-export async function deleteAdmin(id) {
-    command = `
-        delete from administradores
-        where id = ?;
+export async function getAdminById(id) {
+    const command = `
+        select * from administradores
+        where id_admin = ?;
     `
 
-    const [result] = await con.query(command, [i]);
+    const [result] = await con.query(command, [id]);
+
+    return result[0];
+}
+
+export async function editAdmin(admin, id) {
+    const command = `
+        update administradores
+        set nome = ?,
+            email = ?,
+            senha = ?
+        where id_admin = ?
+    `
+
+    const [result] = await con.query(command, [
+        admin.nome,
+        admin.email,
+        admin.senha,
+        id
+    ])
 
     return result.affectedRows;
+}
+
+export async function deleteAdmin(id) {
+    const command = `
+        delete from administradores
+        where id_admin = ?;
+    `
+
+    const [result] = await con.query(command, [id]);
+
+    return result.affectedRows;
+}
+
+export async function consultarRenda() {
+    const command = `
+        select sum(valor) from assinaturas
+    `
+
+    const [result] = await con.query(command, []);
+
+    return result;
 }

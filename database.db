@@ -22,7 +22,7 @@ nome_usuario varchar(150) not null,
 email varchar(150) not null,
 senha varchar(255) not null,
 data_cadastro date not null,
-ativo boolean not null
+ativo boolean default 0 not null
 );
 
 create table anotacoes (
@@ -43,7 +43,6 @@ id_lembrete int auto_increment primary key,
 id_usuario int not null,
 titulo varchar(100) not null,
 descricao varchar(500) not null,
-toque varchar(55) not null,
 data_aviso date not null,
 concluido boolean not null,
 data_criacao date not null,
